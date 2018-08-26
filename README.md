@@ -1,6 +1,11 @@
 # PizzaCompanyAPI
 A simple API built on raw NodeJS that lets you create orders for a pizza company. The API only uses JSON when posting data.
 
+External API keys can be obtained from:
+Mailgun: https://www.mailgun.com/
+Stripe: https://stripe.com/nz
+
+
 ### POST: /users
 To start making orders, you need to first make an account. That can be done using this endpoint.
 ```
