@@ -72,6 +72,7 @@ handlers.logout = function (data, callback) {
 };
 
 handlers._logout.post = function (data, callback) {
+    // Get the right token to perform the logout action
     var tokenId = typeof (data.queryStringObject.tokenId) == "string" && data.queryStringObject.tokenId.trim().length == 20 ? data.queryStringObject.tokenId.trim() : false;
     if (tokenId) {
         _data.read("tokens", tokenId, function (err, tokenData) {
@@ -409,7 +410,7 @@ handlers.menu = function (data, callback) {
 };
 
 handlers._menu.get = function (data, callback) {
-    // check that the phone is valid
+    // check that the token is valid
     var token = typeof (data.headers.token) == "string" && data.headers.token.trim().length == 20 ? data.headers.token.trim() : false;
     if (token) {
         // Lookup the user
@@ -444,7 +445,7 @@ handlers.cart = function (data, callback) {
 };
 
 handlers._cart.get = function (data, callback) {
-    // check that the phone is valid
+    // check that the token is valid
     var token = typeof (data.headers.token) == "string" && data.headers.token.trim().length == 20 ? data.headers.token.trim() : false;
     if (token) {
         // Lookup the user
@@ -461,7 +462,7 @@ handlers._cart.get = function (data, callback) {
 }
 
 handlers._cart.post = function (data, callback) {
-    // check that the phone is valid
+    // check that the token is valid
     var cartItems = typeof (data.payload.items) == "object" && data.payload.items instanceof Array && data.payload.items.length > 0 ? data.payload.items : [];
     var token = typeof (data.headers.token) == "string" && data.headers.token.trim().length == 20 ? data.headers.token.trim() : false;
     if (token) {
@@ -470,12 +471,14 @@ handlers._cart.post = function (data, callback) {
             if (!err && userData) {
                 if (cartItems) {
                     _data.read("menu", "menu", function (err, menuData) {
+                        // Create the shopping cart object.
                         var shoppingCart = {
                             "orderId": helpers.createRandomString(5),
                             "emailAddress": userData.emailAddress,
                             "fullfilled": false,
                             "cartItems": []
                         };
+                        // Add each item into the shopping cart list
                         cartItems.forEach(menuId => {
                             shoppingCart.cartItems.push(menuData[menuId]);
                         });
@@ -524,8 +527,10 @@ handlers._order.post = function (data, callback) {
         // Lookup the user
         _data.read("tokens", token, function (err, userData) {
             if (!err && userData) {
+                // Get the right order based on the given orderId
                 _data.read("orders", orderId, function (err, orderData) {
                     if (!err && orderData) {
+                        // Check if the email address from the order matches the logged in users email address
                         if (orderData.emailAddress === userData.emailAddress) {
                             if (!orderData.fullfilled) {
                                 var totalPrice = 0;
@@ -534,7 +539,7 @@ handlers._order.post = function (data, callback) {
                                 });
                                 helpers.createPayment(orderData.emailAddress, totalPrice, "Order for " + orderData.emailAddress, function (err) {
                                     if (!err) {
-                                        // orderData.fullfilled = true;
+                                        orderData.fullfilled = true;
                                         _data.update("orders", orderData.orderId, orderData, function (err) {
                                             if (!err) {
                                                 var subject = "Order ID: " + orderData.orderId + " - Pizza Company";
