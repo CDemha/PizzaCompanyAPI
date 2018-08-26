@@ -1,0 +1,32 @@
+{
+    "1": {
+        "id": 1,
+        "name": "GARLIC SHRIMP SUPREME",
+        "price": 12.99
+    },
+    "2": {
+        "id": 2,
+        "name": "CHIPOTLE BEEF",
+        "price": 10.99
+    },
+    "3": {
+        "id": 3,
+        "name": "CHICKEN CRANBERRY LOVERS",
+        "price": 10.99
+    },
+    "4": {
+        "id": 4,
+        "name": "CHIPOTLE PORK & BACON",
+        "price": 10.99
+    },
+    "5": {
+        "id": 5,
+        "name": "DOUBLE-TOPPED PEPPERONI",
+        "price": 10.99
+    },
+    "6": {
+        "id": 6,
+        "name": "CHIPOTLE CHICKEN",
+        "price": 10.99
+    }
+}
