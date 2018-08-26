@@ -31,7 +31,7 @@ Upon creating a token, this should return a **200 OK**. Save this token and don'
 You can login using this endpoint.
 ```
 {
-	"emailAddress" : "AhmedCader@Live.com",
+	"emailAddress" : "name@domain.com",
 	"password" : "mypassword"
 }
 ```
